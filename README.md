@@ -5,7 +5,11 @@
  -  rq 1.9.0 (conda install rq # if it's not already there)
  -  docker 20.10.11 (for Windows 10+, 16GB RAM+, recommend WSL2 and docker desktop)
  -  docker-compose 3.2 (for Windows/WSL, docker-compose is packaged with docker desktop)
-
+```
+conda create -n redis python
+conda activate
+conda install --file requirements.txt
+```
 ## Build container
 ```
 docker-compose up --build -d
@@ -23,6 +27,7 @@ ping
 
 ## Demonstration
 ```
+conda install --file requirements.txt
 python use_queue.py
 # queue 3 jobs
 python run_worker.py #  alternative: $ rq worker --url redis::/redis:6379
@@ -43,4 +48,6 @@ If toy-redis network remains (e.g., due to `container stop`), remove with:
 ```
 docker network rm `docker network ls|grep toy-redis|cut -d ' ' -f 1`
 docker prune
+conda deactivate 
+# optionally: conda env remove -n redis
 ```
