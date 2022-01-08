@@ -25,16 +25,32 @@ ping
 ^D out of client, ^D out of docker container
 
 ## Demonstration
+
+Open 2 terminals (Terminal 1, Terminal 2)
+
+###  create a queue/add jobs
+In terminal 1:
 ```
-conda install --file requirements.txt
 python use_queue.py
 # queue 3 jobs
+```
+### monitor queue
+In terminal 2:
+```
+rq info -i 1
+```
+### execute jobs
+In terminal 1:
+```
 python run_worker.py #  alternative: $ rq worker --url redis::/redis:6379
 # execute 3 jobs
 ```
-^C out of worker
 
 ## Clean-up
+
+<br>Terminal 1: ^C out of run_worker
+<br>Terminal 2: ^C out of rq
+
 ```
 docker-compose down
 ```
