@@ -2,7 +2,6 @@
 
 ## Requirements:
  -  miniconda version 4.11.0+
- -  rq 1.9.0 (conda install rq # if it's not already there)
  -  docker 20.10.11 (for Windows 10+, 16GB RAM+, recommend WSL2 and docker desktop)
  -  docker-compose 3.2 (for Windows/WSL, docker-compose is packaged with docker desktop)
 ```
