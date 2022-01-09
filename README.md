@@ -45,7 +45,6 @@ In terminal 1:
 python run_worker.py #  alternative: $ rq worker --url redis::/redis:6379
 # execute 3 jobs
 ```
-
 ## Clean-up
 
 <br>Terminal 1: ^C out of run_worker
@@ -66,3 +65,23 @@ docker prune
 conda deactivate 
 # optionally: conda env remove -n redis
 ```
+
+## Duplicate id demonstration
+
+The scheduler allows the user to provide the job_id, and there's no
+unique identifier enforcement. When a new job is enqueued with the
+same id as a job already enqueued, the enqueued job's job function and
+job function arguments are replaced by the new job's.
+
+### create a queue/add duplicate id jobs
+```
+python create_duplicate_job_ids.py
+# queue 2 jobs with duplicate job id's, but different job functions and job function arguments
+```
+### execute jobs
+```
+python run_worker.py 
+# executes 2 jobs, both with the last job function and arguments specified
+# ^C out of worker
+```
+
