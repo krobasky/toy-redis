@@ -1,4 +1,4 @@
-# Simple redis for Python using docker, example
+# Redis for Python using Docker, simple example
 
 ## Requirements:
  -  miniconda version 4.11.0+
@@ -6,7 +6,7 @@
  -  docker-compose 3.2 (for Windows/WSL, docker-compose is packaged with docker desktop)
 ```
 conda create -n redis python
-conda activate
+conda activate redis
 conda install --file requirements.txt
 ```
 ## Build container
@@ -32,7 +32,7 @@ Open 2 terminals (Terminal 1, Terminal 2)
 In terminal 1:
 ```
 python use_queue.py
-# queue 3 jobs
+# queue 2 jobs
 ```
 ### monitor queue
 In terminal 2:
@@ -43,7 +43,7 @@ rq info -i 1
 In terminal 1:
 ```
 python run_worker.py #  alternative: $ rq worker --url redis::/redis:6379
-# execute 3 jobs
+# execute 2 jobs
 ```
 ## Clean-up
 
