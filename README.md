@@ -85,3 +85,13 @@ python run_worker.py
 # ^C out of worker
 ```
 
+## Job status demonstration
+
+```
+python use_queue.py
+python job_status.py
+python run_worker.py
+^C
+python job_status.py
+
+```

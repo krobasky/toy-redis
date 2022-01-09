@@ -5,14 +5,14 @@ from rq.job import  Job
 redis_connection = Redis()
 q = Queue(connection=redis_connection, name="toy_queue")
 
-from queueables import stdout_queue_item_1, stdout_queue_item_2
-
+from queueables import stdout_queue_item_1
 # Simple example
 hi_str="hello world"
 bye_str="hasta luego"
 my_id = "my_id"
 job = q.enqueue(stdout_queue_item_1, hi_str)
 print('+ Job id (Simple enqueue) : %s' % job.id)
+
 # Demonstration: controlled enqueue
 job = q.enqueue(stdout_queue_item_1,
                 args=(hi_str,),                 # arguments to the job's function (e.g, 'stdout_queue_item_1')
@@ -25,6 +25,11 @@ job = q.enqueue(stdout_queue_item_1,
                 ) 
 print('+ Job id (Controlled enqueue) : %s' % job.id)
 
-
-job = Job.fetch(my_id, connection=redis_connection)
-print('+ Status of fetched job(%s:%s): [%s]' % (job.id, job.func_name, job.get_status())) 
+from queueables import analyze, post_analyses
+#Demonstration: dependent jobs
+analysis1_job = q.enqueue(analyze, "normalize")
+print('+ [%s] (%s : %s)' % (analysis1_job.get_status(), analysis1_job.func_name, analysis1_job.id, ) )
+analysis2_job = q.enqueue(analyze, "PCA", depends_on=analysis1_job)
+print('+ [%s] (%s : %s)' % (analysis2_job.get_status(), analysis2_job.func_name, analysis2_job.id ) )
+post_job = q.enqueue(post_analyses, "email analysis", depends_on=analysis2_job)
+print('+ [%s] (%s : %s)' % (post_job.get_status(), post_job.func_name, post_job.id ) )
