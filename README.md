@@ -99,20 +99,22 @@ python job_status.py
 
 Job times out after default time of 180s, returns 'failed' status
 
+Open 2 terminals (Terminal 1, Terminal 2)
+
 ### create a long job on the queue
-In Terminal 1:
+In terminal 1:
 ```
 python create_timeout_job.py long_job_id 190
 ```
 
 ### run worker
-In Terminal 2:
+In terminal 2:
 ```
 python run_worker.py
 ```
 
 ### watch status change to 'failed'
-In Terminal 1:
+In terminal 1:
 ```
 sh> for i in [[0..100]]; do python get_status.py long_job_id ; sleep 5 ; done
 ```
