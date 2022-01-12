@@ -118,3 +118,43 @@ In terminal 1:
 ```
 sh> for i in [[0..100]]; do python get_status.py long_job_id ; sleep 5 ; done
 ```
+## Stopping jobs demonstration
+
+Stopping jobs with status "failed", "finished", or "queued" (not started yet) will throw an exception (InvalidJobOperation). Creating 2 jobs with identical job ids can have unpredictable job ids can have unpredictable results.
+
+Open 2 terminals (Terminal 1, Terminal 2)
+
+### create 2 jobs that will timeout, id='long_job_id'
+In terminal 1:
+```
+python create_timeout_job.py 190 long_job_id
+python create_timeout_job.py 190 long_job_id
+```
+### Issue commands to stop all jobs with id='long_job_id' BEFORE running worker
+In terminal 1:
+```
+python stop_job.py long_job_id
+```
+Command will fail, throwing exception (InvalidJobOperation) indicating that job is 'queued', not 'started'
+
+### run worker
+In terminal 2:
+```
+python run_worker.py
+```
+
+### Issue commands to stop all jobs with id='long_job_id' currently running
+In terminal 1:
+```
+python stop_job.py long_job_id # 1st command
+python stop_job.py long_job_id # 2nd command
+python stop_job.py long_job_id # 3rd command
+```
+The following will happen:
+ - 1st command: 
+   1. Worker will indicate that the first command stops first job with id='long_job_id'.
+   2. Worker will start the second job with id='long_job_id'.
+ - 2nd command: 
+   1. Worker will stop the second job with id='long_job_id'.
+ - 3rd command will fail throwing exception (InvalidJobOperation) indicating that job is 'stopped', not 'started'
+
