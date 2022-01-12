@@ -1,0 +1,18 @@
+import sys
+
+
+
+from redis import Redis
+from rq import Queue
+from rq.job import Job
+
+redis_connection = Redis()
+q = Queue(connection=redis_connection, name="toy_queue")
+
+job_id = sys.argv[1]
+
+print("+ Fetching job id=(%s)..." % (job_id) )
+jobs = Job.fetch_many([job_id], connection=redis_connection)
+for job in jobs:
+    print('+ Status (%s:%s): [%s]' % (job.id, job.func_name, job.get_status()))
+
