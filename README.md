@@ -1,4 +1,9 @@
 # Redis for Python using Docker, simple example
+Useful tools:
+* run_worker.py
+* create_timeout_job.py <seconds> <job_id>
+* get_status.py <job_id>
+* stop_job.py <job_id>
 
 ## Requirements:
  -  miniconda version 4.11.0+
